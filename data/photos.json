@@ -1,0 +1,273 @@
+[
+  {
+    "id": "52a00fc6-26cf-4c84-bbb8-f7b6b173caa7",
+    "venueId": "saitama-super-arena",
+    "sectionId": "level-200",
+    "seatLabel": "1列　444番",
+    "photoUrl": "/uploads/52a00fc6-26cf-4c84-bbb8-f7b6b173caa7.jpg",
+    "photoType": "flat",
+    "event": "RIZIN師走の超強者祭り",
+    "rating": 5,
+    "uploadedAt": "2026-04-22"
+  },
+  {
+    "id": "ssa-vvip-1",
+    "venueId": "saitama-super-arena",
+    "sectionId": "vvip",
+    "seatLabel": "1列 5番",
+    "photoUrl": "/placeholder.svg",
+    "photoType": "flat",
+    "event": "RIZIN 50",
+    "uploadedAt": "2024-12-15",
+    "rating": 5,
+    "tags": [
+      "great-view"
+    ]
+  },
+  {
+    "id": "ssa-vip-1",
+    "venueId": "saitama-super-arena",
+    "sectionId": "vip",
+    "seatLabel": "2列 12番",
+    "photoUrl": "/placeholder.svg",
+    "photoType": "flat",
+    "event": "RIZIN 50",
+    "uploadedAt": "2024-12-15",
+    "rating": 5,
+    "tags": [
+      "great-view",
+      "aisle"
+    ]
+  },
+  {
+    "id": "ssa-srs-1",
+    "venueId": "saitama-super-arena",
+    "sectionId": "srs",
+    "seatLabel": "3列 20番",
+    "photoUrl": "/placeholder.svg",
+    "photoType": "flat",
+    "event": "RIZIN 50",
+    "uploadedAt": "2024-12-15",
+    "rating": 4,
+    "tags": [
+      "great-view"
+    ]
+  },
+  {
+    "id": "ssa-200-1",
+    "venueId": "saitama-super-arena",
+    "sectionId": "level-200",
+    "seatLabel": "C 5列 22番",
+    "photoUrl": "/placeholder.svg",
+    "photoType": "flat",
+    "event": "RIZIN 50",
+    "uploadedAt": "2024-12-15",
+    "rating": 3,
+    "tags": [
+      "monitor"
+    ]
+  },
+  {
+    "id": "ssa-300-1",
+    "venueId": "saitama-super-arena",
+    "sectionId": "level-300",
+    "seatLabel": "1列 8番",
+    "photoUrl": "/placeholder.svg",
+    "photoType": "flat",
+    "event": "RIZIN 50",
+    "uploadedAt": "2024-12-15",
+    "rating": 4
+  },
+  {
+    "id": "ssa-400-1",
+    "venueId": "saitama-super-arena",
+    "sectionId": "level-400",
+    "seatLabel": "B 10列 8番",
+    "photoUrl": "/placeholder.svg",
+    "photoType": "flat",
+    "event": "UFC JAPAN",
+    "uploadedAt": "2024-11-03",
+    "rating": 3,
+    "tags": [
+      "steep",
+      "pillar"
+    ]
+  },
+  {
+    "id": "ssa-500-1",
+    "venueId": "saitama-super-arena",
+    "sectionId": "level-500",
+    "seatLabel": "A 3列 15番",
+    "photoUrl": "/placeholder.svg",
+    "photoType": "flat",
+    "event": "UFC JAPAN",
+    "uploadedAt": "2024-11-03",
+    "rating": 2,
+    "tags": [
+      "steep",
+      "cutoff"
+    ]
+  },
+  {
+    "id": "td-arena-rs-1",
+    "venueId": "tokyo-dome",
+    "sectionId": "arena-rs",
+    "seatLabel": "2列 8番",
+    "photoUrl": "/placeholder.svg",
+    "photoType": "flat",
+    "uploadedAt": "2024-09-22"
+  },
+  {
+    "id": "td-arena-ss-1",
+    "venueId": "tokyo-dome",
+    "sectionId": "arena-ss",
+    "seatLabel": "5列 15番",
+    "photoUrl": "/placeholder.svg",
+    "photoType": "flat",
+    "uploadedAt": "2024-09-22"
+  },
+  {
+    "id": "td-arena-s-1",
+    "venueId": "tokyo-dome",
+    "sectionId": "arena-s",
+    "seatLabel": "8列 22番",
+    "photoUrl": "/placeholder.svg",
+    "photoType": "flat",
+    "uploadedAt": "2024-09-22"
+  },
+  {
+    "id": "td-naiya-box-1",
+    "venueId": "tokyo-dome",
+    "sectionId": "naiya-box",
+    "seatLabel": "1塁側 3列 10番",
+    "photoUrl": "/placeholder.svg",
+    "photoType": "flat",
+    "uploadedAt": "2024-09-22"
+  },
+  {
+    "id": "td-naiya-lower-1",
+    "venueId": "tokyo-dome",
+    "sectionId": "naiya-lower",
+    "seatLabel": "B 5列 30番",
+    "photoUrl": "/placeholder.svg",
+    "photoType": "flat",
+    "uploadedAt": "2024-09-22"
+  },
+  {
+    "id": "td-naiya-upper-1",
+    "venueId": "tokyo-dome",
+    "sectionId": "naiya-upper",
+    "seatLabel": "D 3列 12番",
+    "photoUrl": "/placeholder.svg",
+    "photoType": "flat",
+    "uploadedAt": "2024-09-22"
+  },
+  {
+    "id": "td-second-std-1",
+    "venueId": "tokyo-dome",
+    "sectionId": "second-std",
+    "seatLabel": "E 8列 5番",
+    "photoUrl": "/placeholder.svg",
+    "photoType": "flat",
+    "uploadedAt": "2024-09-22"
+  },
+  {
+    "id": "td-outfield-1",
+    "venueId": "tokyo-dome",
+    "sectionId": "outfield",
+    "seatLabel": "外野 レフト 12列 25番",
+    "photoUrl": "/placeholder.svg",
+    "photoType": "flat",
+    "uploadedAt": "2024-09-22"
+  },
+  {
+    "id": "aa-arena-1",
+    "venueId": "ariake-arena",
+    "sectionId": "arena",
+    "seatLabel": "A 2列 5番",
+    "photoUrl": "/placeholder.svg",
+    "photoType": "flat",
+    "event": "BELLATOR JAPAN",
+    "uploadedAt": "2025-01-10"
+  },
+  {
+    "id": "aa-2f-1",
+    "venueId": "ariake-arena",
+    "sectionId": "stand-2f",
+    "seatLabel": "南 4列 18番",
+    "photoUrl": "/placeholder.svg",
+    "photoType": "flat",
+    "event": "BELLATOR JAPAN",
+    "uploadedAt": "2025-01-10"
+  },
+  {
+    "id": "aa-3f-1",
+    "venueId": "ariake-arena",
+    "sectionId": "stand-3f",
+    "seatLabel": "南側 2列 10番",
+    "photoUrl": "/placeholder.svg",
+    "photoType": "flat",
+    "event": "BELLATOR JAPAN",
+    "uploadedAt": "2025-01-10"
+  },
+  {
+    "id": "gak-vvip-1",
+    "venueId": "glion-arena-kobe",
+    "sectionId": "vvip",
+    "seatLabel": "1列 3番",
+    "photoUrl": "/placeholder.svg",
+    "photoType": "flat",
+    "event": "RIZIN LANDMARK",
+    "uploadedAt": "2025-03-10"
+  },
+  {
+    "id": "gak-vip-1",
+    "venueId": "glion-arena-kobe",
+    "sectionId": "vip",
+    "seatLabel": "2列 8番",
+    "photoUrl": "/placeholder.svg",
+    "photoType": "flat",
+    "event": "RIZIN LANDMARK",
+    "uploadedAt": "2025-03-10"
+  },
+  {
+    "id": "gak-srs-1",
+    "venueId": "glion-arena-kobe",
+    "sectionId": "srs",
+    "seatLabel": "3列 15番",
+    "photoUrl": "/placeholder.svg",
+    "photoType": "flat",
+    "event": "RIZIN LANDMARK",
+    "uploadedAt": "2025-03-10"
+  },
+  {
+    "id": "gak-s-1",
+    "venueId": "glion-arena-kobe",
+    "sectionId": "s",
+    "seatLabel": "B 5列 20番",
+    "photoUrl": "/placeholder.svg",
+    "photoType": "flat",
+    "event": "RIZIN LANDMARK",
+    "uploadedAt": "2025-03-10"
+  },
+  {
+    "id": "gak-a-1",
+    "venueId": "glion-arena-kobe",
+    "sectionId": "a",
+    "seatLabel": "C 8列 12番",
+    "photoUrl": "/placeholder.svg",
+    "photoType": "flat",
+    "event": "RIZIN LANDMARK",
+    "uploadedAt": "2025-03-10"
+  },
+  {
+    "id": "gak-sweet-1",
+    "venueId": "glion-arena-kobe",
+    "sectionId": "sweet-lounge",
+    "seatLabel": "ラウンジ 2番",
+    "photoUrl": "/placeholder.svg",
+    "photoType": "flat",
+    "event": "RIZIN LANDMARK",
+    "uploadedAt": "2025-03-10"
+  }
+]
