@@ -86,7 +86,7 @@ export default function EventCountdown({
           <div className="absolute inset-0 bg-gradient-to-br from-red-950/40 via-zinc-950 to-zinc-950" />
         )}
 
-        <div className="relative z-10 p-5 sm:p-7">
+        <div className="relative z-10 p-4 sm:p-7">
           {/* 上部：ラベル＋イベント情報 */}
           <div className="flex items-start justify-between gap-3 mb-5">
             <div>

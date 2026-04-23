@@ -77,11 +77,11 @@ export default function Home() {
             <p className="text-xs font-semibold text-zinc-500 uppercase tracking-widest">upcoming events</p>
           </div>
           <div
-            className="flex gap-4 overflow-x-auto pb-2 px-5 snap-x snap-mandatory"
+            className="flex gap-4 overflow-x-auto pb-2 px-5 snap-x snap-mandatory scroll-pl-5"
             style={{ scrollbarWidth: "none" }}
           >
             {upcomingEvents.map(({ event, venue, mainFight }) => (
-              <div key={event.id} className="shrink-0 w-[calc(100vw-32px)] sm:w-[420px] snap-start">
+              <div key={event.id} className="shrink-0 w-[calc(100vw-40px)] sm:w-[420px] snap-start">
                 <EventCountdown
                   eventId={event.id}
                   eventName={event.name}
