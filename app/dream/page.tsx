@@ -321,7 +321,7 @@ export default function DreamPage() {
                   <button
                     key={cat}
                     type="button"
-                    onClick={() => setForm((f) => ({ ...f, weightClass: "" })) || setCategory(cat)}
+                    onClick={() => { setForm((f) => ({ ...f, weightClass: "" })); setCategory(cat); }}
                     className={`flex-1 rounded-xl py-2 text-xs font-black transition-all ${
                       category === cat ? CAT[cat].active : "bg-zinc-800 text-zinc-500"
                     }`}
