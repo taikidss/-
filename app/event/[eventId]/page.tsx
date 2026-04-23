@@ -6,6 +6,8 @@ import { events, formatDate, daysUntil } from "../../data/events";
 import { venues } from "../../data/venues";
 import { getFightCard } from "../../data/fightCards";
 import { readPhotos } from "../../lib/photos";
+import FightPicks from "../../components/FightPicks";
+import AttendButton from "../../components/AttendButton";
 
 interface Props {
   params: Promise<{ eventId: string }>;
@@ -119,6 +121,17 @@ export default async function EventPage({ params }: Props) {
             )}
           </div>
 
+          {/* 参戦登録 */}
+          {!isPast && venue && (
+            <AttendButton
+              eventId={eventId}
+              eventName={event.name}
+              eventDate={formatDate(event.date)}
+              venueName={venue.name}
+              sections={venue.sections}
+            />
+          )}
+
           {/* 座席へのリンク */}
           {venue && photos.length > 0 && (
             <Link
@@ -194,6 +207,15 @@ export default async function EventPage({ params }: Props) {
           <div className="rounded-xl border border-dashed border-zinc-800 p-8 text-center">
             <p className="text-zinc-500 text-sm">対戦カードは近日公開予定</p>
           </div>
+        )}
+
+        {/* 試合予想 */}
+        {card && (
+          <FightPicks
+            eventId={eventId}
+            fights={card.fights}
+            isPast={isPast}
+          />
         )}
 
         {/* シェアボタン */}
