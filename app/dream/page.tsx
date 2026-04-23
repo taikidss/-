@@ -336,19 +336,19 @@ export default function DreamPage() {
                 <input
                   value={form.fighter1}
                   onChange={(e) => setForm((f) => ({ ...f, fighter1: e.target.value }))}
-                  placeholder="選手1の名前"
+                  placeholder="選手1"
                   maxLength={30}
                   required
-                  className="flex-1 rounded-xl border border-zinc-700 bg-zinc-800 px-3 py-2.5 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-zinc-500"
+                  className="flex-1 min-w-0 rounded-xl border border-zinc-700 bg-zinc-800 px-3 py-2.5 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-zinc-500"
                 />
-                <span className="text-xs font-black text-zinc-600 shrink-0">VS</span>
+                <span className="text-xs font-black text-zinc-600 shrink-0 px-1">VS</span>
                 <input
                   value={form.fighter2}
                   onChange={(e) => setForm((f) => ({ ...f, fighter2: e.target.value }))}
-                  placeholder="選手2の名前"
+                  placeholder="選手2"
                   maxLength={30}
                   required
-                  className="flex-1 rounded-xl border border-zinc-700 bg-zinc-800 px-3 py-2.5 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-zinc-500"
+                  className="flex-1 min-w-0 rounded-xl border border-zinc-700 bg-zinc-800 px-3 py-2.5 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-zinc-500"
                 />
               </div>
 
