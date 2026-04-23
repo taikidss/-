@@ -2,9 +2,20 @@ import Link from "next/link";
 import Image from "next/image";
 import { venues } from "./data/venues";
 import { readPhotos } from "./lib/photos";
+import { events } from "./data/events";
+import { getFightCard } from "./data/fightCards";
+import EventCountdown from "./components/EventCountdown";
 
 export default function Home() {
   const photos = readPhotos();
+
+  const nextEvent = events
+    .filter((e) => new Date(e.date) >= new Date())
+    .sort((a, b) => a.date.localeCompare(b.date))[0];
+
+  const nextEventVenue = nextEvent ? venues.find((v) => v.id === nextEvent.venueId) : null;
+  const nextEventCard = nextEvent ? getFightCard(nextEvent.id) : null;
+  const mainFight = nextEventCard?.fights.find((f) => f.isMain);
 
   return (
     <div className="min-h-screen">
@@ -48,6 +59,25 @@ export default function Home() {
           </a>
         </div>
       </section>
+
+      {/* イベントカウントダウン */}
+      {nextEvent && nextEventVenue && (
+        <section className="max-w-2xl mx-auto px-5 pb-6">
+          <EventCountdown
+            eventId={nextEvent.id}
+            eventName={nextEvent.name}
+            eventDate={nextEvent.date}
+            promoter={nextEvent.promoter}
+            posterUrl={nextEvent.posterUrl}
+            venueName={nextEventVenue.name}
+            venueId={nextEventVenue.id}
+            mainFight={mainFight ? {
+              red: mainFight.redCorner.name,
+              blue: mainFight.blueCorner.name,
+            } : undefined}
+          />
+        </section>
+      )}
 
       {/* 統計バー */}
       <section className="border-y border-zinc-800 py-5">
