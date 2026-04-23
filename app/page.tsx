@@ -22,77 +22,59 @@ export default function Home() {
     })
     .filter((e) => e.venue);
 
-  const nextEvent = upcomingEvents[0];
-
   return (
     <div className="min-h-screen">
       {/* ヘッダー */}
-      <header className="border-b border-zinc-800 px-5 py-3 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <span className="text-xl">🥊</span>
-          <span className="font-black tracking-tight text-white text-lg">ビューン</span>
-        </div>
+      <header className="border-b border-zinc-800 px-6 py-4 flex items-center justify-between">
+        <span className="font-bold tracking-tight text-white">ビューン</span>
         <Link
           href="/upload"
-          className="rounded-full bg-red-600 px-4 py-1.5 text-xs font-bold text-white hover:bg-red-500 transition-colors"
+          className="rounded-full bg-red-600 px-4 py-1.5 text-sm font-semibold text-white hover:bg-red-500 transition-colors"
         >
           + 写真を投稿
         </Link>
       </header>
 
       {/* ヒーロー */}
-      <section className="relative px-5 pt-10 pb-8 text-center overflow-hidden">
-        {/* 背景グラデーション */}
-        <div className="absolute inset-0 bg-gradient-to-b from-red-950/25 via-transparent to-transparent pointer-events-none" />
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 bg-red-600/10 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="relative">
-          <h1 className="text-3xl font-black tracking-tight text-white sm:text-5xl leading-tight">
-            格闘技観戦、<br className="sm:hidden" />全部ここで。
-          </h1>
-          <p className="mt-3 text-sm text-zinc-400">
-            座席写真・対戦カード・みんなの予想で、観戦をもっと楽しく。
-          </p>
-
-          {/* メインCTA */}
-          <div className="mt-7 flex flex-col items-center gap-3">
-            {nextEvent && (
-              <Link
-                href={`/event/${nextEvent.event.id}`}
-                className="w-full max-w-xs rounded-2xl bg-red-600 px-6 py-3.5 text-sm font-black text-white hover:bg-red-500 transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-red-900/40"
-              >
-                {nextEvent.event.name} の試合予想・対戦カード →
-              </Link>
-            )}
-            <div className="flex items-center gap-2">
-              <Link
-                href="/dream"
-                className="rounded-full border border-zinc-700 bg-zinc-900 px-4 py-2 text-xs font-bold text-zinc-300 hover:border-zinc-500 transition-colors"
-              >
-                🥊 ドリームマッチ投票
-              </Link>
-              <Link
-                href="/ranking"
-                className="rounded-full border border-yellow-700/50 bg-yellow-500/10 px-4 py-2 text-xs font-bold text-yellow-400 hover:bg-yellow-500/20 transition-colors"
-              >
-                🏆 座席ランキング
-              </Link>
-              <a
-                href="#venues"
-                className="rounded-full border border-zinc-700 px-4 py-2 text-xs font-medium text-zinc-400 hover:border-zinc-500 transition-colors"
-              >
-                🏟️ 会場
-              </a>
-            </div>
-          </div>
+      <section className="px-5 pt-12 pb-10 sm:pt-16 sm:pb-12 text-center">
+        <h1 className="text-3xl font-black tracking-tight text-white sm:text-5xl">
+          格闘技観戦、全部ここで。
+        </h1>
+        <p className="mt-4 text-sm text-zinc-400 whitespace-nowrap">
+          座席写真・対戦カード・みんなの予想で、観戦をもっと楽しく。
+        </p>
+        <div className="mt-8 flex items-center justify-center gap-3 flex-wrap">
+          <Link
+            href="/upload"
+            className="rounded-full bg-red-600 px-6 py-3 text-sm font-bold text-white hover:bg-red-500 transition-colors"
+          >
+            写真を投稿する
+          </Link>
+          <Link
+            href="/ranking"
+            className="rounded-full border border-yellow-600/50 bg-yellow-500/10 px-6 py-3 text-sm font-bold text-yellow-400 hover:bg-yellow-500/20 transition-colors"
+          >
+            🏆 座席ランキング
+          </Link>
+          <Link
+            href="/dream"
+            className="rounded-full border border-orange-600/50 bg-orange-500/10 px-6 py-3 text-sm font-bold text-orange-400 hover:bg-orange-500/20 transition-colors"
+          >
+            🔥 ドリームマッチ投票
+          </Link>
+          <a
+            href="#venues"
+            className="rounded-full border border-zinc-700 px-6 py-3 text-sm font-medium text-zinc-300 hover:border-zinc-500 transition-colors"
+          >
+            会場を見る
+          </a>
         </div>
       </section>
 
       {/* イベントカウントダウン */}
       {upcomingEvents.length > 0 && (
         <section className="pb-6">
-          <div className="px-5 mb-3 max-w-4xl mx-auto flex items-center gap-2">
-            <span className="inline-block w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
+          <div className="px-5 mb-3 max-w-4xl mx-auto">
             <p className="text-xs font-semibold text-zinc-500 uppercase tracking-widest">upcoming events</p>
           </div>
           <div
@@ -147,9 +129,9 @@ export default function Home() {
       </section>
 
       {/* 会場一覧 */}
-      <section id="venues" className="max-w-4xl mx-auto px-5 py-10">
-        <h2 className="text-base font-bold text-white mb-4">会場を選ぶ</h2>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <section id="venues" className="max-w-4xl mx-auto px-6 py-12">
+        <h2 className="text-xl font-bold text-white mb-6">会場を選ぶ</h2>
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {venues.map((venue) => {
             const count = photos.filter((p) => p.venueId === venue.id).length;
             return (
@@ -158,7 +140,8 @@ export default function Home() {
                 href={`/venue/${venue.id}`}
                 className="group relative rounded-2xl overflow-hidden border border-zinc-800 hover:border-zinc-600 transition-all hover:-translate-y-1 hover:shadow-2xl hover:shadow-black/60"
               >
-                <div className="relative h-36 overflow-hidden bg-zinc-900">
+                {/* 会場写真 */}
+                <div className="relative h-44 overflow-hidden bg-zinc-900">
                   <Image
                     src={venue.coverImage}
                     alt={venue.name}
@@ -166,28 +149,35 @@ export default function Home() {
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   />
+                  {/* 上部グラデーション（ライセンス表示のため薄く） */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                  <span className="absolute top-2 right-2 rounded-full bg-black/60 backdrop-blur-sm px-2 py-0.5 text-xs font-medium text-white">
+
+                  {/* 写真数バッジ */}
+                  <span className="absolute top-3 right-3 rounded-full bg-black/60 backdrop-blur-sm px-2.5 py-1 text-xs font-medium text-white">
                     {count}件
                   </span>
-                  <h3 className="absolute bottom-2 left-3 font-bold text-white text-sm group-hover:text-red-400 transition-colors">
+                </div>
+
+                {/* テキスト情報 */}
+                <div className="bg-zinc-900 p-4">
+                  <h3 className="font-bold text-white text-sm leading-snug group-hover:text-red-400 transition-colors">
                     {venue.name}
                   </h3>
-                </div>
-                <div className="bg-zinc-900 px-3 py-2 flex flex-wrap gap-1">
-                  {venue.sections.slice(0, 4).map((section) => (
-                    <span
-                      key={section.id}
-                      className="rounded-full px-2 py-0.5 text-xs"
-                      style={{
-                        background: section.color + "18",
-                        color: section.color,
-                        border: `1px solid ${section.color}35`,
-                      }}
-                    >
-                      {section.name}
-                    </span>
-                  ))}
+                  <div className="mt-2 flex flex-wrap gap-1">
+                    {venue.sections.map((section) => (
+                      <span
+                        key={section.id}
+                        className="rounded-full px-2 py-0.5 text-xs"
+                        style={{
+                          background: section.color + "18",
+                          color: section.color,
+                          border: `1px solid ${section.color}35`,
+                        }}
+                      >
+                        {section.name}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </Link>
             );
@@ -196,8 +186,8 @@ export default function Home() {
       </section>
 
       {/* フッター CTA */}
-      <section className="border-t border-zinc-800 py-12 text-center px-6">
-        <p className="text-zinc-500 text-sm mb-4">
+      <section className="border-t border-zinc-800 py-14 text-center px-6">
+        <p className="text-zinc-400 text-sm mb-4">
           あなたの会場写真を共有して、みんなの役に立てよう
         </p>
         <Link
