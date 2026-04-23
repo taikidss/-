@@ -12,11 +12,26 @@ interface PickEntry {
 
 interface Props {
   eventId: string;
+  eventName: string;
   fights: Fight[];
   isPast: boolean;
 }
 
-export default function FightPicks({ eventId, fights, isPast }: Props) {
+function buildShareUrl(
+  eventName: string,
+  eventId: string,
+  fight: Fight,
+  myPick: "red" | "blue",
+  pct: number
+): string {
+  const pickedName = myPick === "red" ? fight.redCorner.name : fight.blueCorner.name;
+  const pickedEmoji = myPick === "red" ? "🔴" : "🔵";
+  const url = `${typeof window !== "undefined" ? window.location.origin : ""}/event/${eventId}`;
+  const text = `🥊【${eventName} 予想】\n${fight.redCorner.name} vs ${fight.blueCorner.name}\n\n俺は${pickedEmoji}${pickedName}の勝ち！\n現在${pct}%が同じ予想🔥\n\n#ビューン`;
+  return `https://x.com/intent/post?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
+}
+
+export default function FightPicks({ eventId, eventName, fights, isPast }: Props) {
   const storageKey = `picks-${eventId}`;
   const [picks, setPicks] = useState<Record<number, "red" | "blue">>({});
   const [counts, setCounts] = useState<PickEntry[]>([]);
@@ -215,6 +230,29 @@ export default function FightPicks({ eventId, fights, isPast }: Props) {
                       style={{ background: "linear-gradient(to left, #2563eb, #3b82f6)" }}
                     />
                   </div>
+                </div>
+              )}
+
+              {/* シェアボタン */}
+              {myPick && (
+                <div className="px-3 pb-3 flex justify-end">
+                  <a
+                    href={buildShareUrl(
+                      eventName,
+                      eventId,
+                      fight,
+                      myPick,
+                      myPick === "red" ? redPct : bluePct
+                    )}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1.5 rounded-full bg-sky-950/60 border border-sky-800/50 px-3 py-1.5 text-xs font-bold text-sky-400 hover:bg-sky-900/60 transition-colors animate-fade-in"
+                  >
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.859L1.255 2.25H8.08l4.253 5.622L18.244 2.25zM17.083 19.77h1.833L7.084 4.126H5.117L17.083 19.77z"/>
+                    </svg>
+                    予想をXでシェア
+                  </a>
                 </div>
               )}
 

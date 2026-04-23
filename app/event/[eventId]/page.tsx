@@ -213,6 +213,7 @@ export default async function EventPage({ params }: Props) {
         {card && (
           <FightPicks
             eventId={eventId}
+            eventName={event.name}
             fights={card.fights}
             isPast={isPast}
           />
