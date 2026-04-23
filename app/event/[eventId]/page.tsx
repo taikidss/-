@@ -43,6 +43,7 @@ export default async function EventPage({ params }: Props) {
   const isPast = days < 0;
 
   const mainFight = card?.fights.find((f) => f.isMain);
+  const mainFightIndex = card?.fights.findIndex((f) => f.isMain) ?? 0;
   const undercard = card?.fights.filter((f) => !f.isMain) ?? [];
 
   return (
@@ -221,7 +222,7 @@ export default async function EventPage({ params }: Props) {
         )}
 
         {/* 大会コメント欄 */}
-        <CommentSection eventId={eventId} />
+        <CommentSection eventId={eventId} mainFightIndex={mainFightIndex} />
 
         {/* シェアボタン */}
         <div className="mt-6 rounded-xl border border-zinc-800 bg-zinc-900 p-4 flex items-center justify-between gap-3 flex-wrap">

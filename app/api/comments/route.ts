@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const { eventId, name, text } = await request.json();
+  const { eventId, name, text, corner } = await request.json();
   if (!eventId || !name?.trim() || !text?.trim()) {
     return NextResponse.json({ error: "invalid params" }, { status: 400 });
   }
@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
     fightIndex: -1,
     name: String(name).slice(0, 20),
     text: String(text).slice(0, 200),
-    corner: null,
+    corner: corner ?? null,
     createdAt: new Date().toISOString(),
   };
 
