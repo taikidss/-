@@ -9,6 +9,7 @@ interface Props {
   eventDate: string;
   promoter: string;
   posterUrl?: string;
+  posterPosition?: string;
   venueName: string;
   venueId: string;
   mainFight?: { red: string; blue: string };
@@ -55,7 +56,7 @@ function Digit({ value, label }: { value: number; label: string }) {
 }
 
 export default function EventCountdown({
-  eventId, eventName, eventDate, promoter, posterUrl, venueName, venueId, mainFight,
+  eventId, eventName, eventDate, promoter, posterUrl, posterPosition = "center", venueName, venueId, mainFight,
 }: Props) {
   const [time, setTime] = useState(() => calcTime(eventDate));
 
@@ -78,6 +79,7 @@ export default function EventCountdown({
               src={posterUrl}
               alt={eventName}
               className="absolute inset-0 w-full h-full object-cover"
+              style={{ objectPosition: posterPosition }}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/85 to-black/60" />
           </>

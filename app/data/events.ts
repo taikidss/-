@@ -6,6 +6,7 @@ export type MartialArtsEvent = {
   promoter: string;
   url?: string;
   posterUrl?: string;
+  posterPosition?: string;
 };
 
 export const events: MartialArtsEvent[] = [
@@ -65,6 +66,7 @@ export const events: MartialArtsEvent[] = [
     promoter: "RIZIN FF",
     url: "https://jp.rizinff.com",
     posterUrl: "https://d1uzk9o9cg136f.cloudfront.net/f/16782696/rc/2026/04/15/2acc5b19331dcc666a30f1b695a722e70a5c50cb_large.jpg",
+    posterPosition: "center top",
   },
 ];
 

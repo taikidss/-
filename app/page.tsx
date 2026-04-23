@@ -88,6 +88,7 @@ export default function Home() {
                   eventDate={event.date}
                   promoter={event.promoter}
                   posterUrl={event.posterUrl}
+                  posterPosition={event.posterPosition}
                   venueName={venue!.name}
                   venueId={venue!.id}
                   mainFight={mainFight ? {
