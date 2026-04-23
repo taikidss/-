@@ -55,6 +55,12 @@ export default function Home() {
           >
             🏆 座席ランキング
           </Link>
+          <Link
+            href="/dream"
+            className="rounded-full border border-orange-600/50 bg-orange-500/10 px-6 py-3 text-sm font-bold text-orange-400 hover:bg-orange-500/20 transition-colors"
+          >
+            🔥 ドリームマッチ投票
+          </Link>
           <a
             href="#venues"
             className="rounded-full border border-zinc-700 px-6 py-3 text-sm font-medium text-zinc-300 hover:border-zinc-500 transition-colors"
