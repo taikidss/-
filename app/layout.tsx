@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000"),
   icons: { icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🥊</text></svg>" },
   title: {
-    default: "ビューン — あなたの席、実際どう見える？",
+    default: "ビューン — 格闘技観戦、全部ここで。",
     template: "%s | ビューン",
   },
   description: "格闘技会場の座席からの眺めを、チケットを買う前に確認できるアプリ",

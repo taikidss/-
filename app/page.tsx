@@ -37,7 +37,7 @@ export default function Home() {
       {/* ヒーロー */}
       <section className="px-5 pt-12 pb-10 sm:pt-16 sm:pb-12 text-center">
         <h1 className="text-3xl font-black tracking-tight text-white sm:text-5xl">
-          あなたの席、実際どう見える？
+          格闘技観戦、全部ここで。
         </h1>
         <p className="mt-4 text-lg text-zinc-400 max-w-md mx-auto">
           格闘技会場の座席からの眺めを、チケットを買う前に確認できるアプリ

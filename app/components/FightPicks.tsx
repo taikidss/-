@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import type { Fight } from "../data/fightCards";
+import CommentSection from "./CommentSection";
 
 interface PickEntry {
   fightIndex: number;
@@ -219,10 +220,19 @@ export default function FightPicks({ eventId, fights, isPast }: Props) {
 
               {/* 予想前のヒント */}
               {!myPick && !isPast && (
-                <div className="px-4 pb-3 text-center">
+                <div className="px-4 pb-1 text-center">
                   <p className="text-xs text-zinc-600">← タップして勝者を予想 →</p>
                 </div>
               )}
+
+              {/* コメント欄 */}
+              <div className="border-t border-zinc-800 mt-1">
+                <CommentSection
+                  eventId={eventId}
+                  fightIndex={i}
+                  myCorner={myPick ?? null}
+                />
+              </div>
             </div>
           );
         })}
