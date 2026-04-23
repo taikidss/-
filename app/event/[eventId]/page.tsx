@@ -222,7 +222,12 @@ export default async function EventPage({ params }: Props) {
         )}
 
         {/* 大会コメント欄 */}
-        <CommentSection eventId={eventId} mainFightIndex={mainFightIndex} />
+        <CommentSection
+          eventId={eventId}
+          mainFightIndex={mainFightIndex}
+          redCornerName={mainFight?.redCorner.name}
+          blueCornerName={mainFight?.blueCorner.name}
+        />
 
         {/* シェアボタン */}
         <div className="mt-6 rounded-xl border border-zinc-800 bg-zinc-900 p-4 flex items-center justify-between gap-3 flex-wrap">

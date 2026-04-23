@@ -6,6 +6,8 @@ import type { Comment } from "../api/comments/route";
 interface Props {
   eventId: string;
   mainFightIndex?: number;
+  redCornerName?: string;
+  blueCornerName?: string;
 }
 
 function timeAgo(iso: string) {
@@ -18,7 +20,7 @@ function timeAgo(iso: string) {
   return `${Math.floor(h / 24)}日前`;
 }
 
-export default function CommentSection({ eventId, mainFightIndex = 0 }: Props) {
+export default function CommentSection({ eventId, mainFightIndex = 0, redCornerName, blueCornerName }: Props) {
   const nameKey = "biewun_username";
   const [comments, setComments] = useState<Comment[]>([]);
   const [name, setName] = useState("");
@@ -96,14 +98,14 @@ export default function CommentSection({ eventId, mainFightIndex = 0 }: Props) {
             <span className="text-base">🔴</span>
             <div>
               <p className="text-xs text-red-400 font-bold">{redCount}人</p>
-              <p className="text-xs text-red-900/80">赤コーナー派</p>
+              <p className="text-xs text-red-900/80 truncate">{redCornerName ?? "赤コーナー"}派</p>
             </div>
           </div>
           <div className="flex-1 flex items-center gap-2 rounded-xl bg-blue-950/30 border border-blue-900/40 px-3 py-2">
             <span className="text-base">🔵</span>
             <div>
               <p className="text-xs text-blue-400 font-bold">{blueCount}人</p>
-              <p className="text-xs text-blue-900/80">青コーナー派</p>
+              <p className="text-xs text-blue-900/80 truncate">{blueCornerName ?? "青コーナー"}派</p>
             </div>
           </div>
         </div>
@@ -118,7 +120,9 @@ export default function CommentSection({ eventId, mainFightIndex = 0 }: Props) {
         }`}>
           <span className="text-lg">{myCorner === "red" ? "🔴" : "🔵"}</span>
           <div>
-            <p className="text-xs font-black text-white">あなたは{myCorner === "red" ? "赤" : "青"}コーナー派</p>
+            <p className="text-xs font-black text-white">
+            あなたは{myCorner === "red" ? (redCornerName ?? "赤コーナー") : (blueCornerName ?? "青コーナー")}派
+          </p>
             <p className="text-xs text-zinc-500">コメントに予想が表示されます</p>
           </div>
         </div>
@@ -155,12 +159,12 @@ export default function CommentSection({ eventId, mainFightIndex = 0 }: Props) {
                     <span className="text-sm font-bold text-white">{c.name}</span>
                     {c.corner === "red" && (
                       <span className="rounded-full bg-red-500/15 border border-red-500/30 px-2 py-0.5 text-xs font-bold text-red-400">
-                        🔴 赤コーナー
+                        🔴 {redCornerName ?? "赤コーナー"}
                       </span>
                     )}
                     {c.corner === "blue" && (
                       <span className="rounded-full bg-blue-500/15 border border-blue-500/30 px-2 py-0.5 text-xs font-bold text-blue-400">
-                        🔵 青コーナー
+                        🔵 {blueCornerName ?? "青コーナー"}
                       </span>
                     )}
                     <span className="text-xs text-zinc-600 ml-auto">{timeAgo(c.createdAt)}</span>
@@ -208,7 +212,7 @@ export default function CommentSection({ eventId, mainFightIndex = 0 }: Props) {
           {myCorner && (
             <div className={`flex items-center gap-2 text-xs font-bold ${myCorner === "red" ? "text-red-400" : "text-blue-400"}`}>
               <span>{myCorner === "red" ? "🔴" : "🔵"}</span>
-              {myCorner === "red" ? "赤コーナー" : "青コーナー"}派として投稿
+              {myCorner === "red" ? (redCornerName ?? "赤コーナー") : (blueCornerName ?? "青コーナー")}派として投稿
             </div>
           )}
           <input
