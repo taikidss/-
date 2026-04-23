@@ -40,7 +40,7 @@ export default function Home() {
           格闘技観戦、全部ここで。
         </h1>
         <p className="mt-4 text-lg text-zinc-400 max-w-md mx-auto">
-          格闘技会場の座席からの眺めを、チケットを買う前に確認できるアプリ
+          座席写真・対戦カード・みんなの予想で、観戦をもっと楽しく。
         </p>
         <div className="mt-8 flex items-center justify-center gap-3 flex-wrap">
           <Link
