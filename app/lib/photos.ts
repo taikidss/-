@@ -11,7 +11,7 @@ export type Photo = {
   sectionId: string;
   seatLabel: string;
   photoUrl: string;
-  photoType: "panorama" | "flat";
+  photoType: "panorama" | "flat" | "video";
   event?: string;
   uploadedAt: string;
   rating?: number;

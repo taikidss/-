@@ -237,6 +237,11 @@ export default function VenueClient({ venue, mapDef, photos, upcomingEvents, pas
                       360°
                     </span>
                   )}
+                  {photo.photoType === "video" && (
+                    <span className="absolute top-2 left-2 rounded-full bg-black/70 backdrop-blur-sm px-2 py-0.5 text-xs font-medium text-white">
+                      🎬
+                    </span>
+                  )}
                 </div>
                 <div className="p-2.5 sm:p-3">
                   <p className="font-semibold text-xs sm:text-sm text-white truncate">{photo.seatLabel}</p>

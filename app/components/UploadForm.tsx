@@ -20,7 +20,7 @@ export default function UploadForm({ venues, defaultVenueId, defaultSectionId }:
   const [venueId, setVenueId] = useState(defaultVenueId ?? "");
   const [sectionId, setSectionId] = useState(defaultSectionId ?? "");
   const [seatLabel, setSeatLabel] = useState("");
-  const [photoType, setPhotoType] = useState<"flat" | "panorama">("flat");
+  const [photoType, setPhotoType] = useState<"flat" | "panorama" | "video">("flat");
   const [event, setEvent] = useState("");
   const [rating, setRating] = useState(0);
   const [tags, setTags] = useState<TagId[]>([]);
@@ -187,9 +187,13 @@ export default function UploadForm({ venues, defaultVenueId, defaultSectionId }:
 
       {/* 写真の種類 */}
       <div className="flex flex-col gap-2">
-        <label className="text-sm font-medium text-gray-300">写真の種類 *</label>
-        <div className="flex gap-3">
-          {(["flat", "panorama"] as const).map((type) => (
+        <label className="text-sm font-medium text-gray-300">種類 *</label>
+        <div className="flex gap-2">
+          {([
+            { type: "flat", label: "📷 写真" },
+            { type: "video", label: "🎬 動画" },
+            { type: "panorama", label: "🌐 360°" },
+          ] as const).map(({ type, label }) => (
             <label
               key={type}
               className={`flex-1 flex items-center justify-center gap-2 rounded-lg border py-2.5 text-sm cursor-pointer transition-colors ${
@@ -203,10 +207,10 @@ export default function UploadForm({ venues, defaultVenueId, defaultSectionId }:
                 name="photoType"
                 value={type}
                 checked={photoType === type}
-                onChange={() => setPhotoType(type)}
+                onChange={() => { setPhotoType(type); setFile(null); setPreview(null); }}
                 className="sr-only"
               />
-              {type === "flat" ? "📷 普通の写真" : "🌐 360度パノラマ"}
+              {label}
             </label>
           ))}
         </div>
@@ -214,8 +218,15 @@ export default function UploadForm({ venues, defaultVenueId, defaultSectionId }:
 
       {/* ファイル選択 */}
       <div className="flex flex-col gap-2">
-        <label className="text-sm font-medium text-gray-300">写真を選択 *</label>
-        <input ref={fileInputRef} type="file" accept="image/*" onChange={handleFileChange} required className="hidden" />
+        <label className="text-sm font-medium text-gray-300">{photoType === "video" ? "動画を選択" : "写真を選択"} *</label>
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept={photoType === "video" ? "video/*" : "image/*"}
+          onChange={handleFileChange}
+          required
+          className="hidden"
+        />
         <button
           type="button"
           onClick={() => fileInputRef.current?.click()}
@@ -232,6 +243,11 @@ export default function UploadForm({ venues, defaultVenueId, defaultSectionId }:
           <div className="rounded-lg overflow-hidden border border-gray-700 mt-1">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={preview} alt="プレビュー" className="w-full max-h-48 object-cover" />
+          </div>
+        )}
+        {preview && photoType === "video" && (
+          <div className="rounded-lg overflow-hidden border border-gray-700 mt-1">
+            <video src={preview} controls className="w-full max-h-48" />
           </div>
         )}
       </div>

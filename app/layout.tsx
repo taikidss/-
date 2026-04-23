@@ -16,7 +16,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000"),
   title: {
-    default: "ビューン — あの席、実際どう見える？",
+    default: "ビューン — あなたの席、実際どう見える？",
     template: "%s | ビューン",
   },
   description: "格闘技会場の座席からの眺めを、チケットを買う前に確認できるアプリ",

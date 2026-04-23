@@ -3,7 +3,7 @@ import fs from "fs";
 import path from "path";
 import { addPhoto, type Photo } from "../../lib/photos";
 
-const MAX_SIZE = 20 * 1024 * 1024; // 20MB
+const MAX_SIZE = 100 * 1024 * 1024; // 100MB（動画対応）
 
 export async function POST(request: NextRequest) {
   const formData = await request.formData();
@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
   const venueId = formData.get("venueId") as string;
   const sectionId = formData.get("sectionId") as string;
   const seatLabel = formData.get("seatLabel") as string;
-  const photoType = formData.get("photoType") as "panorama" | "flat";
+  const photoType = formData.get("photoType") as "panorama" | "flat" | "video";
   const event = (formData.get("event") as string) || undefined;
   const ratingRaw = formData.get("rating") as string | null;
   const tagsRaw = formData.get("tags") as string | null;
