@@ -9,13 +9,17 @@ import EventCountdown from "./components/EventCountdown";
 export default function Home() {
   const photos = readPhotos();
 
-  const nextEvent = events
+  const upcomingEvents = events
     .filter((e) => new Date(e.date) >= new Date())
-    .sort((a, b) => a.date.localeCompare(b.date))[0];
-
-  const nextEventVenue = nextEvent ? venues.find((v) => v.id === nextEvent.venueId) : null;
-  const nextEventCard = nextEvent ? getFightCard(nextEvent.id) : null;
-  const mainFight = nextEventCard?.fights.find((f) => f.isMain);
+    .sort((a, b) => a.date.localeCompare(b.date))
+    .slice(0, 4)
+    .map((e) => {
+      const venue = venues.find((v) => v.id === e.venueId);
+      const card = getFightCard(e.id);
+      const mainFight = card?.fights.find((f) => f.isMain);
+      return { event: e, venue, mainFight };
+    })
+    .filter((e) => e.venue);
 
   return (
     <div className="min-h-screen">
@@ -61,21 +65,33 @@ export default function Home() {
       </section>
 
       {/* イベントカウントダウン */}
-      {nextEvent && nextEventVenue && (
-        <section className="max-w-2xl mx-auto px-5 pb-6">
-          <EventCountdown
-            eventId={nextEvent.id}
-            eventName={nextEvent.name}
-            eventDate={nextEvent.date}
-            promoter={nextEvent.promoter}
-            posterUrl={nextEvent.posterUrl}
-            venueName={nextEventVenue.name}
-            venueId={nextEventVenue.id}
-            mainFight={mainFight ? {
-              red: mainFight.redCorner.name,
-              blue: mainFight.blueCorner.name,
-            } : undefined}
-          />
+      {upcomingEvents.length > 0 && (
+        <section className="pb-6">
+          <div className="px-5 mb-3 max-w-4xl mx-auto">
+            <p className="text-xs font-semibold text-zinc-500 uppercase tracking-widest">upcoming events</p>
+          </div>
+          <div
+            className="flex gap-4 overflow-x-auto pb-2 px-5 snap-x snap-mandatory"
+            style={{ scrollbarWidth: "none" }}
+          >
+            {upcomingEvents.map(({ event, venue, mainFight }) => (
+              <div key={event.id} className="shrink-0 w-[320px] sm:w-[380px] snap-start">
+                <EventCountdown
+                  eventId={event.id}
+                  eventName={event.name}
+                  eventDate={event.date}
+                  promoter={event.promoter}
+                  posterUrl={event.posterUrl}
+                  venueName={venue!.name}
+                  venueId={venue!.id}
+                  mainFight={mainFight ? {
+                    red: mainFight.redCorner.name,
+                    blue: mainFight.blueCorner.name,
+                  } : undefined}
+                />
+              </div>
+            ))}
+          </div>
         </section>
       )}
 
