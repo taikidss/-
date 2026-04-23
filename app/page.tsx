@@ -81,7 +81,7 @@ export default function Home() {
             style={{ scrollbarWidth: "none" }}
           >
             {upcomingEvents.map(({ event, venue, mainFight }) => (
-              <div key={event.id} className="shrink-0 w-[320px] sm:w-[380px] snap-start">
+              <div key={event.id} className="shrink-0 w-[calc(100vw-32px)] sm:w-[420px] snap-start">
                 <EventCountdown
                   eventId={event.id}
                   eventName={event.name}

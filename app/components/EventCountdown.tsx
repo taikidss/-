@@ -39,13 +39,13 @@ function Digit({ value, label }: { value: number; label: string }) {
   return (
     <div className="flex flex-col items-center gap-1">
       <div
-        className={`relative w-16 sm:w-20 h-16 sm:h-20 rounded-xl flex items-center justify-center overflow-hidden
+        className={`relative w-14 sm:w-20 h-14 sm:h-20 rounded-xl flex items-center justify-center overflow-hidden
           bg-gradient-to-b from-zinc-800 to-zinc-900 border border-zinc-700
           shadow-lg shadow-black/40 ${flip ? "scale-95" : "scale-100"} transition-transform duration-150`}
       >
         {/* 上下の境界線 */}
         <div className="absolute inset-x-0 top-1/2 h-px bg-black/60 z-10" />
-        <span className="text-3xl sm:text-4xl font-black text-white tabular-nums z-20">
+        <span className="text-2xl sm:text-4xl font-black text-white tabular-nums z-20">
           {String(value).padStart(2, "0")}
         </span>
       </div>
@@ -117,13 +117,13 @@ export default function EventCountdown({
 
           {/* カウントダウン */}
           {time ? (
-            <div className="flex items-end justify-center gap-2 sm:gap-3">
+            <div className="flex items-end justify-center gap-1.5 sm:gap-3">
               <Digit value={time.days} label="日" />
-              <span className="text-2xl font-black text-zinc-600 mb-5">:</span>
+              <span className="text-xl sm:text-2xl font-black text-zinc-600 mb-4 sm:mb-5">:</span>
               <Digit value={time.hours} label="時間" />
-              <span className="text-2xl font-black text-zinc-600 mb-5">:</span>
+              <span className="text-xl sm:text-2xl font-black text-zinc-600 mb-4 sm:mb-5">:</span>
               <Digit value={time.minutes} label="分" />
-              <span className="text-2xl font-black text-zinc-600 mb-5">:</span>
+              <span className="text-xl sm:text-2xl font-black text-zinc-600 mb-4 sm:mb-5">:</span>
               <Digit value={time.seconds} label="秒" />
             </div>
           ) : (
