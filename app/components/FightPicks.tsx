@@ -83,8 +83,26 @@ export default function FightPicks({ eventId, fights, isPast }: Props) {
           return (
             <div
               key={i}
-              className={`rounded-2xl overflow-hidden border border-zinc-800 bg-zinc-950 ${isFlashing ? "animate-pick-flash" : ""}`}
+              className={`rounded-2xl overflow-hidden border bg-zinc-950 ${
+                fight.status === "cancelled" ? "border-orange-900/60 opacity-60" : "border-zinc-800"
+              } ${isFlashing ? "animate-pick-flash" : ""}`}
             >
+              {fight.status === "cancelled" && (
+                <div className="flex items-center gap-2 bg-orange-950/60 border-b border-orange-900/50 px-4 py-2">
+                  <span>⚠️</span>
+                  <p className="text-xs font-bold text-orange-400">
+                    試合中止{fight.statusNote ? `：${fight.statusNote}` : ""}
+                  </p>
+                </div>
+              )}
+              {fight.status === "changed" && (
+                <div className="flex items-center gap-2 bg-yellow-950/60 border-b border-yellow-900/50 px-4 py-2">
+                  <span>🔄</span>
+                  <p className="text-xs font-bold text-yellow-400">
+                    変更あり{fight.statusNote ? `：${fight.statusNote}` : ""}
+                  </p>
+                </div>
+              )}
               {/* バッジ行 */}
               <div className="flex items-center justify-between px-4 pt-3 pb-1">
                 <div className="flex items-center gap-1.5">

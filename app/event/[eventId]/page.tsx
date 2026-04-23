@@ -241,12 +241,33 @@ export default async function EventPage({ params }: Props) {
 }
 
 function FightRow({ fight, large }: { fight: import("../../data/fightCards").Fight; large?: boolean }) {
+  const isCancelled = fight.status === "cancelled";
+  const isChanged = fight.status === "changed";
+
   return (
-    <div className="flex flex-col gap-2">
-      <div className={`flex items-center justify-between gap-3 ${large ? "text-base" : "text-sm"}`}>
+    <div className={`flex flex-col gap-2 ${isCancelled ? "opacity-60" : ""}`}>
+      {/* ステータスバッジ */}
+      {isCancelled && (
+        <div className="flex items-center gap-2 rounded-lg bg-orange-950/60 border border-orange-800/50 px-3 py-1.5">
+          <span className="text-sm">⚠️</span>
+          <p className="text-xs font-bold text-orange-400">
+            試合中止{fight.statusNote ? `：${fight.statusNote}` : ""}
+          </p>
+        </div>
+      )}
+      {isChanged && (
+        <div className="flex items-center gap-2 rounded-lg bg-yellow-950/60 border border-yellow-800/50 px-3 py-1.5">
+          <span className="text-sm">🔄</span>
+          <p className="text-xs font-bold text-yellow-400">
+            変更あり{fight.statusNote ? `：${fight.statusNote}` : ""}
+          </p>
+        </div>
+      )}
+
+      <div className={`flex items-center justify-between gap-3 ${large ? "text-base" : "text-sm"} ${isCancelled ? "line-through decoration-orange-600/60" : ""}`}>
         {/* 赤コーナー */}
         <div className="flex-1 text-left">
-          <p className={`font-bold text-white ${large ? "text-lg" : ""}`}>
+          <p className={`font-bold ${isCancelled ? "text-zinc-500" : "text-white"} ${large ? "text-lg" : ""}`}>
             {fight.redCorner.country && <span className="mr-1">{fight.redCorner.country}</span>}
             {fight.redCorner.name}
           </p>
@@ -259,7 +280,7 @@ function FightRow({ fight, large }: { fight: import("../../data/fightCards").Fig
 
         {/* 青コーナー */}
         <div className="flex-1 text-right">
-          <p className={`font-bold text-white ${large ? "text-lg" : ""}`}>
+          <p className={`font-bold ${isCancelled ? "text-zinc-500" : "text-white"} ${large ? "text-lg" : ""}`}>
             {fight.blueCorner.name}
             {fight.blueCorner.country && <span className="ml-1">{fight.blueCorner.country}</span>}
           </p>

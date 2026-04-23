@@ -13,6 +13,8 @@ export type Fight = {
   isTitleMatch?: boolean;
   titleName?: string;
   note?: string;
+  status?: "cancelled" | "changed";
+  statusNote?: string;
 };
 
 export type FightCard = {
