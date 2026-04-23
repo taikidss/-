@@ -39,18 +39,31 @@ export default function CommentSection({ eventId }: Props) {
     setSubmitting(true);
     localStorage.setItem(nameKey, name);
 
-    const res = await fetch("/api/comments", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ eventId, name, text }),
-    });
-    if (res.ok) {
-      const comment = await res.json();
-      setComments((prev) => [comment, ...prev]);
-      setText("");
-      setShowForm(false);
-    }
+    // 楽観的更新：即座に表示
+    const optimistic: Comment = {
+      id: crypto.randomUUID(),
+      eventId,
+      fightIndex: -1,
+      name: name.trim(),
+      text: text.trim(),
+      corner: null,
+      createdAt: new Date().toISOString(),
+    };
+    setComments((prev) => [optimistic, ...prev]);
+    setText("");
+    setShowForm(false);
     setSubmitting(false);
+
+    // バックグラウンドでサーバー同期
+    try {
+      await fetch("/api/comments", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ eventId, name, text }),
+      });
+    } catch {
+      // ignore
+    }
   }
 
   return (
