@@ -32,22 +32,33 @@ export default function FightPicks({ eventId, fights, isPast }: Props) {
 
   async function handlePick(fightIndex: number, corner: "red" | "blue") {
     if (picks[fightIndex] || isPast) return;
-    setFlashing(fightIndex);
-    setTimeout(() => setFlashing(null), 400);
 
-    const res = await fetch("/api/picks", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ eventId, fightIndex, corner }),
-    });
-    const entry = await res.json();
+    // 即座にUI更新（楽観的更新）
     const newPicks = { ...picks, [fightIndex]: corner };
     setPicks(newPicks);
     localStorage.setItem(storageKey, JSON.stringify(newPicks));
+    setFlashing(fightIndex);
+    setTimeout(() => setFlashing(null), 400);
     setCounts((prev) => {
+      const existing = prev.find((p) => p.fightIndex === fightIndex);
       const next = prev.filter((p) => p.fightIndex !== fightIndex);
-      return [...next, { fightIndex, red: entry.red, blue: entry.blue }];
+      return [...next, {
+        fightIndex,
+        red: (existing?.red ?? 0) + (corner === "red" ? 1 : 0),
+        blue: (existing?.blue ?? 0) + (corner === "blue" ? 1 : 0),
+      }];
     });
+
+    // サーバー同期（失敗しても無視）
+    try {
+      await fetch("/api/picks", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ eventId, fightIndex, corner }),
+      });
+    } catch {
+      // ignore
+    }
   }
 
   return (
