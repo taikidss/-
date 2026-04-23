@@ -19,19 +19,22 @@ export default function FightPicks({ eventId, fights, isPast }: Props) {
   const storageKey = `picks-${eventId}`;
   const [picks, setPicks] = useState<Record<number, "red" | "blue">>({});
   const [counts, setCounts] = useState<PickEntry[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [flashing, setFlashing] = useState<number | null>(null);
 
   useEffect(() => {
     const saved = localStorage.getItem(storageKey);
     if (saved) setPicks(JSON.parse(saved));
     fetch(`/api/picks?eventId=${eventId}`)
       .then((r) => r.json())
-      .then((data) => { setCounts(data); setLoading(false); })
-      .catch(() => setLoading(false));
+      .then(setCounts)
+      .catch(() => {});
   }, [eventId, storageKey]);
 
   async function handlePick(fightIndex: number, corner: "red" | "blue") {
     if (picks[fightIndex] || isPast) return;
+    setFlashing(fightIndex);
+    setTimeout(() => setFlashing(null), 400);
+
     const res = await fetch("/api/picks", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -49,82 +52,147 @@ export default function FightPicks({ eventId, fights, isPast }: Props) {
 
   return (
     <div className="flex flex-col gap-3 mt-6">
-      <h2 className="text-sm font-semibold text-zinc-500 uppercase tracking-wide">
-        {isPast ? "みんなの予想結果" : "勝者を予想する"}
-      </h2>
-      <div className="flex flex-col gap-2">
+      <div className="flex items-center gap-2">
+        <span className="text-base">🥊</span>
+        <h2 className="text-sm font-bold text-white tracking-wide">
+          {isPast ? "みんなの予想結果" : "勝者を予想しよう"}
+        </h2>
+      </div>
+
+      <div className="flex flex-col gap-3">
         {fights.map((fight, i) => {
           const myPick = picks[i];
           const count = counts.find((c) => c.fightIndex === i);
           const total = (count?.red ?? 0) + (count?.blue ?? 0);
           const redPct = total > 0 ? Math.round(((count?.red ?? 0) / total) * 100) : 50;
-          const bluePct = total > 0 ? 100 - redPct : 50;
+          const bluePct = 100 - redPct;
           const showResult = !!myPick || isPast;
+          const isFlashing = flashing === i;
 
           return (
-            <div key={i} className="rounded-xl border border-zinc-800 bg-zinc-900 p-3 sm:p-4">
-              <div className="flex items-center justify-between gap-2 mb-3 text-xs text-zinc-500">
-                <span>{fight.weightClass} · {fight.rule}</span>
-                {total > 0 && <span>{total}票</span>}
+            <div
+              key={i}
+              className={`rounded-2xl overflow-hidden border border-zinc-800 bg-zinc-950 ${isFlashing ? "animate-pick-flash" : ""}`}
+            >
+              {/* バッジ行 */}
+              <div className="flex items-center justify-between px-4 pt-3 pb-1">
+                <div className="flex items-center gap-1.5">
+                  {fight.isTitleMatch && (
+                    <span className="rounded-full bg-yellow-500/15 border border-yellow-500/30 px-2 py-0.5 text-xs font-bold text-yellow-400">
+                      🏆 タイトル
+                    </span>
+                  )}
+                  <span className="text-xs text-zinc-600">{fight.weightClass} · {fight.rule}</span>
+                </div>
+                {total > 0 && (
+                  <span className="text-xs text-zinc-600">{total.toLocaleString()}票</span>
+                )}
               </div>
 
-              <div className="flex items-center gap-2">
+              {/* コーナーボタン */}
+              <div className="flex items-stretch gap-0 px-3 pb-3 pt-1">
                 {/* 赤コーナー */}
                 <button
                   onClick={() => handlePick(i, "red")}
                   disabled={!!myPick || isPast}
-                  className={`flex-1 rounded-lg border py-2 px-2 text-xs sm:text-sm font-bold transition-all text-left ${
+                  className={`relative flex-1 rounded-xl p-3 text-left transition-all duration-200 border-2 ${
                     myPick === "red"
-                      ? "border-red-500 bg-red-500/20 text-red-300"
+                      ? "border-red-500 bg-gradient-to-br from-red-900/80 to-red-950 scale-[1.02] shadow-lg shadow-red-900/40"
                       : myPick || isPast
-                      ? "border-zinc-700 bg-zinc-800 text-zinc-500 cursor-default"
-                      : "border-zinc-700 bg-zinc-800 text-white hover:border-red-500/50 hover:bg-red-950/30 cursor-pointer"
+                      ? "border-zinc-800 bg-zinc-900 opacity-50 cursor-default"
+                      : "border-red-900/40 bg-gradient-to-br from-red-950/60 to-zinc-900 hover:border-red-600/60 hover:from-red-900/60 hover:scale-[1.01] cursor-pointer active:scale-[0.99]"
                   }`}
                 >
-                  <span className="block truncate">
-                    {fight.redCorner.country} {fight.redCorner.name}
+                  <span className="block text-xs font-black tracking-widest mb-1.5"
+                    style={{ color: myPick === "red" ? "#fca5a5" : "#7f1d1d" }}>
+                    🔴 RED
+                  </span>
+                  <span className={`block font-black leading-snug ${
+                    myPick === "red" ? "text-white text-sm sm:text-base" : "text-zinc-300 text-xs sm:text-sm"
+                  }`}>
+                    {fight.redCorner.country && <span className="mr-1">{fight.redCorner.country}</span>}
+                    {fight.redCorner.name}
                   </span>
                   {showResult && (
-                    <span className="block text-xs font-normal mt-0.5 text-red-400">{redPct}%</span>
+                    <span className="animate-fade-in block text-xl font-black mt-1 text-red-400">
+                      {redPct}%
+                    </span>
+                  )}
+                  {myPick === "red" && (
+                    <span className="absolute top-2 right-2 text-xs bg-red-500 text-white rounded-full px-1.5 py-0.5 font-bold">
+                      ✓ 予想
+                    </span>
                   )}
                 </button>
 
-                <span className="shrink-0 text-xs font-black text-zinc-600">VS</span>
+                {/* VS */}
+                <div className="flex items-center justify-center px-2 shrink-0">
+                  <div className="flex flex-col items-center">
+                    <span className="text-xs font-black text-zinc-400 bg-zinc-800 rounded-full w-8 h-8 flex items-center justify-center border border-zinc-700">
+                      VS
+                    </span>
+                  </div>
+                </div>
 
                 {/* 青コーナー */}
                 <button
                   onClick={() => handlePick(i, "blue")}
                   disabled={!!myPick || isPast}
-                  className={`flex-1 rounded-lg border py-2 px-2 text-xs sm:text-sm font-bold transition-all text-right ${
+                  className={`relative flex-1 rounded-xl p-3 text-right transition-all duration-200 border-2 ${
                     myPick === "blue"
-                      ? "border-blue-500 bg-blue-500/20 text-blue-300"
+                      ? "border-blue-500 bg-gradient-to-bl from-blue-900/80 to-blue-950 scale-[1.02] shadow-lg shadow-blue-900/40"
                       : myPick || isPast
-                      ? "border-zinc-700 bg-zinc-800 text-zinc-500 cursor-default"
-                      : "border-zinc-700 bg-zinc-800 text-white hover:border-blue-500/50 hover:bg-blue-950/30 cursor-pointer"
+                      ? "border-zinc-800 bg-zinc-900 opacity-50 cursor-default"
+                      : "border-blue-900/40 bg-gradient-to-bl from-blue-950/60 to-zinc-900 hover:border-blue-600/60 hover:from-blue-900/60 hover:scale-[1.01] cursor-pointer active:scale-[0.99]"
                   }`}
                 >
-                  <span className="block truncate">
-                    {fight.blueCorner.name} {fight.blueCorner.country}
+                  <span className="block text-xs font-black tracking-widest mb-1.5"
+                    style={{ color: myPick === "blue" ? "#93c5fd" : "#1e3a5f" }}>
+                    BLUE 🔵
+                  </span>
+                  <span className={`block font-black leading-snug ${
+                    myPick === "blue" ? "text-white text-sm sm:text-base" : "text-zinc-300 text-xs sm:text-sm"
+                  }`}>
+                    {fight.blueCorner.name}
+                    {fight.blueCorner.country && <span className="ml-1">{fight.blueCorner.country}</span>}
                   </span>
                   {showResult && (
-                    <span className="block text-xs font-normal mt-0.5 text-blue-400">{bluePct}%</span>
+                    <span className="animate-fade-in block text-xl font-black mt-1 text-blue-400">
+                      {bluePct}%
+                    </span>
+                  )}
+                  {myPick === "blue" && (
+                    <span className="absolute top-2 left-2 text-xs bg-blue-500 text-white rounded-full px-1.5 py-0.5 font-bold">
+                      ✓ 予想
+                    </span>
                   )}
                 </button>
               </div>
 
               {/* 割合バー */}
               {showResult && total > 0 && (
-                <div className="mt-2 h-1.5 rounded-full bg-zinc-800 overflow-hidden flex">
-                  <div
-                    className="h-full bg-red-500 transition-all duration-500"
-                    style={{ width: `${redPct}%` }}
-                  />
-                  <div className="h-full bg-blue-500 flex-1" />
+                <div className="px-3 pb-3">
+                  <div className="h-2 rounded-full bg-zinc-800 overflow-hidden flex">
+                    <div
+                      className="h-full rounded-l-full animate-bar-grow"
+                      style={{
+                        width: `${redPct}%`,
+                        background: "linear-gradient(to right, #dc2626, #ef4444)",
+                      }}
+                    />
+                    <div
+                      className="h-full rounded-r-full flex-1"
+                      style={{ background: "linear-gradient(to left, #2563eb, #3b82f6)" }}
+                    />
+                  </div>
                 </div>
               )}
 
-              {!myPick && !isPast && !loading && (
-                <p className="text-xs text-zinc-600 mt-2 text-center">タップして予想</p>
+              {/* 予想前のヒント */}
+              {!myPick && !isPast && (
+                <div className="px-4 pb-3 text-center">
+                  <p className="text-xs text-zinc-600">← タップして勝者を予想 →</p>
+                </div>
               )}
             </div>
           );

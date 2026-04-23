@@ -41,3 +41,41 @@ body {
 .animate-pop-in {
   animation: popIn 0.25s ease-out forwards;
 }
+
+@keyframes pickFlash {
+  0%   { transform: scale(1); }
+  30%  { transform: scale(1.06); }
+  60%  { transform: scale(0.97); }
+  100% { transform: scale(1); }
+}
+
+.animate-pick-flash {
+  animation: pickFlash 0.35s ease-out forwards;
+}
+
+@keyframes barGrow {
+  from { transform: scaleX(0); transform-origin: left; }
+  to   { transform: scaleX(1); transform-origin: left; }
+}
+
+.animate-bar-grow {
+  animation: barGrow 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+@keyframes cornerPulse {
+  0%, 100% { box-shadow: 0 0 0 0 currentColor; }
+  50%       { box-shadow: 0 0 16px 2px currentColor; }
+}
+
+.animate-corner-pulse {
+  animation: cornerPulse 1.6s ease-in-out infinite;
+}
