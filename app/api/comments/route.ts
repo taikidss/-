@@ -21,39 +21,38 @@ async function getKV() {
 
 export async function GET(request: NextRequest) {
   const eventId = request.nextUrl.searchParams.get("eventId");
-  const fightIndex = request.nextUrl.searchParams.get("fightIndex");
-  if (!eventId || fightIndex === null) return NextResponse.json([]);
+  if (!eventId) return NextResponse.json([]);
 
   const kv = await getKV();
   if (!kv) return NextResponse.json([]);
 
-  const key = `comments:${eventId}:${fightIndex}`;
-  const raw = await kv.lrange<string>(key, 0, 49);
+  const key = `comments:${eventId}`;
+  const raw = await kv.lrange<string>(key, 0, 99);
   const comments = raw.map((r) => (typeof r === "string" ? JSON.parse(r) : r));
   return NextResponse.json(comments);
 }
 
 export async function POST(request: NextRequest) {
-  const { eventId, fightIndex, name, text, corner } = await request.json();
-  if (!eventId || fightIndex === undefined || !name?.trim() || !text?.trim()) {
+  const { eventId, name, text } = await request.json();
+  if (!eventId || !name?.trim() || !text?.trim()) {
     return NextResponse.json({ error: "invalid params" }, { status: 400 });
   }
 
   const comment: Comment = {
     id: crypto.randomUUID(),
     eventId,
-    fightIndex,
+    fightIndex: -1,
     name: String(name).slice(0, 20),
     text: String(text).slice(0, 200),
-    corner: corner ?? null,
+    corner: null,
     createdAt: new Date().toISOString(),
   };
 
   const kv = await getKV();
   if (kv) {
-    const key = `comments:${eventId}:${fightIndex}`;
+    const key = `comments:${eventId}`;
     await kv.lpush(key, JSON.stringify(comment));
-    await kv.ltrim(key, 0, 99);
+    await kv.ltrim(key, 0, 199);
   }
 
   return NextResponse.json(comment);

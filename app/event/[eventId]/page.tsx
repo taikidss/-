@@ -8,6 +8,7 @@ import { getFightCard } from "../../data/fightCards";
 import { readPhotos } from "../../lib/photos";
 import FightPicks from "../../components/FightPicks";
 import AttendButton from "../../components/AttendButton";
+import CommentSection from "../../components/CommentSection";
 
 interface Props {
   params: Promise<{ eventId: string }>;
@@ -219,8 +220,11 @@ export default async function EventPage({ params }: Props) {
           />
         )}
 
+        {/* 大会コメント欄 */}
+        <CommentSection eventId={eventId} />
+
         {/* シェアボタン */}
-        <div className="mt-8 rounded-xl border border-zinc-800 bg-zinc-900 p-4 flex items-center justify-between gap-3 flex-wrap">
+        <div className="mt-6 rounded-xl border border-zinc-800 bg-zinc-900 p-4 flex items-center justify-between gap-3 flex-wrap">
           <p className="text-sm text-zinc-400">この大会情報をシェア</p>
           <a
             href={`https://x.com/intent/post?text=${encodeURIComponent(
