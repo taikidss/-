@@ -77,6 +77,7 @@ export default function UploadForm({ venues, defaultVenueId, defaultSectionId }:
       return;
     }
 
+    localStorage.setItem("biewun_has_uploaded", "1");
     router.push(`/venue/${venueId}/seat/${json.photo.id}`);
     router.refresh();
   }

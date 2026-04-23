@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import VenueMap from "../../components/VenueMap";
 import StarRating from "../../components/StarRating";
@@ -23,6 +23,10 @@ export default function VenueClient({ venue, mapDef, photos, upcomingEvents, pas
   const [selectedSectionId, setSelectedSectionId] = useState<string | null>(
     venue.sections[0]?.id ?? null
   );
+  const [hasUploaded, setHasUploaded] = useState(false);
+  useEffect(() => {
+    setHasUploaded(!!localStorage.getItem("biewun_has_uploaded"));
+  }, []);
 
   const selectedSection = venue.sections.find((s) => s.id === selectedSectionId);
   const sectionPhotos = photos.filter((p) => p.sectionId === selectedSectionId);
@@ -202,6 +206,39 @@ export default function VenueClient({ venue, mapDef, photos, upcomingEvents, pas
           </div>
         )}
 
+        {/* 未投稿ゲート */}
+        {!hasUploaded && sectionPhotos.length > 0 && (
+          <div className="relative">
+            <div className="grid gap-3 grid-cols-2 sm:grid-cols-3 select-none pointer-events-none">
+              {sectionPhotos.slice(0, 3).map((photo) => (
+                <div key={photo.id} className="rounded-xl overflow-hidden border border-zinc-800 bg-zinc-900 aspect-video">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={photo.photoUrl}
+                    alt=""
+                    className="w-full h-full object-cover blur-md scale-105 brightness-50"
+                  />
+                </div>
+              ))}
+            </div>
+            <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
+              <div className="bg-zinc-900/90 backdrop-blur-sm border border-zinc-700 rounded-2xl p-6 max-w-xs w-full">
+                <p className="text-2xl mb-2">📷</p>
+                <p className="font-bold text-white text-sm mb-1">写真を投稿して閲覧解放</p>
+                <p className="text-xs text-zinc-400 mb-4">
+                  1枚投稿するだけで、全会場の全座席写真が見放題になります
+                </p>
+                <Link
+                  href={`/upload?venue=${venue.id}&section=${selectedSectionId ?? ""}`}
+                  className="block rounded-full bg-red-600 px-5 py-2.5 text-sm font-bold text-white hover:bg-red-500 transition-colors"
+                >
+                  写真を投稿する
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
+
         {sectionPhotos.length === 0 ? (
           <div key={`empty-${selectedSectionId}`} className="animate-fade-slide-in rounded-2xl border border-dashed border-zinc-800 p-10 sm:p-12 text-center">
             <div className="text-4xl mb-3">📷</div>
@@ -216,7 +253,7 @@ export default function VenueClient({ venue, mapDef, photos, upcomingEvents, pas
               写真を投稿する
             </Link>
           </div>
-        ) : (
+        ) : hasUploaded ? (
           <div key={`grid-${selectedSectionId}`} className="animate-fade-slide-in grid gap-3 grid-cols-2 sm:grid-cols-3">
             {sectionPhotos.map((photo, idx) => (
               <Link
@@ -278,7 +315,7 @@ export default function VenueClient({ venue, mapDef, photos, upcomingEvents, pas
               </span>
             </Link>
           </div>
-        )}
+        ) : null}
       </div>
     </div>
   );
