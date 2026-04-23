@@ -5,6 +5,7 @@ import { readPhotos } from "./lib/photos";
 import { events } from "./data/events";
 import { getFightCard } from "./data/fightCards";
 import EventCountdown from "./components/EventCountdown";
+import NewsSection from "./components/NewsSection";
 
 export default function Home() {
   const photos = readPhotos();
@@ -101,6 +102,9 @@ export default function Home() {
           </div>
         </section>
       )}
+
+      {/* ニュース */}
+      <NewsSection />
 
       {/* 統計バー */}
       <section className="border-y border-zinc-800 py-5">
