@@ -1,12 +1,13 @@
 import { NextResponse } from "next/server";
 
-export const revalidate = 1800; // 30分キャッシュ
+export const revalidate = 1800;
 
-type NewsItem = {
+export type NewsItem = {
   title: string;
   link: string;
   pubDate: string;
   source: string;
+  category: "mma" | "boxing";
 };
 
 function extract(xml: string, tag: string): string {
@@ -16,39 +17,32 @@ function extract(xml: string, tag: string): string {
   return m2?.[1] ?? "";
 }
 
-function parseRSS(xml: string): NewsItem[] {
+function parseRSS(xml: string, category: "mma" | "boxing"): NewsItem[] {
   const items = xml.match(/<item>([\s\S]*?)<\/item>/g) ?? [];
-  return items.slice(0, 30).map((item) => {
+  return items.slice(0, 20).map((item) => {
     const rawTitle = extract(item, "title");
     const link = extract(item, "link");
     const pubDate = extract(item, "pubDate");
     const source = extract(item, "source");
-
-    // Google Newsは "タイトル - メディア名" 形式
     const parts = rawTitle.split(" - ");
     const title = parts.length > 1 ? parts.slice(0, -1).join(" - ") : rawTitle;
     const srcName = source || (parts.length > 1 ? parts[parts.length - 1] : "");
-
-    return {
-      title: title.trim(),
-      link: link.trim(),
-      pubDate: pubDate.trim(),
-      source: srcName.trim(),
-    };
+    return { title: title.trim(), link: link.trim(), pubDate: pubDate.trim(), source: srcName.trim(), category };
   }).filter((item) => item.title && item.link);
 }
 
 export async function GET() {
   try {
-    const queries = [
-      "RIZIN 格闘技",
-      "ONE Championship 日本",
-      "K-1 キックボクシング",
-      "ボクシング 井上尚弥",
+    const queries: { q: string; category: "mma" | "boxing" }[] = [
+      { q: "RIZIN 格闘技", category: "mma" },
+      { q: "ONE Championship 日本", category: "mma" },
+      { q: "K-1 キックボクシング", category: "mma" },
+      { q: "ボクシング 日本 試合", category: "boxing" },
+      { q: "井上尚弥 ボクシング", category: "boxing" },
     ];
 
     const results = await Promise.allSettled(
-      queries.map((q) =>
+      queries.map(({ q }) =>
         fetch(
           `https://news.google.com/rss/search?q=${encodeURIComponent(q)}&hl=ja&gl=JP&ceid=JP:ja`,
           { next: { revalidate: 1800 } }
@@ -59,20 +53,19 @@ export async function GET() {
     const allItems: NewsItem[] = [];
     const seenLinks = new Set<string>();
 
-    for (const result of results) {
+    results.forEach((result, i) => {
       if (result.status === "fulfilled") {
-        for (const item of parseRSS(result.value)) {
+        for (const item of parseRSS(result.value, queries[i].category)) {
           if (!seenLinks.has(item.link)) {
             seenLinks.add(item.link);
             allItems.push(item);
           }
         }
       }
-    }
+    });
 
     allItems.sort((a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime());
-
-    return NextResponse.json(allItems.slice(0, 20));
+    return NextResponse.json(allItems);
   } catch {
     return NextResponse.json([]);
   }
